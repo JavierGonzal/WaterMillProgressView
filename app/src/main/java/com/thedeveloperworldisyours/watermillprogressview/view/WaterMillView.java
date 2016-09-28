@@ -27,13 +27,11 @@ public class WaterMillView extends View {
     private int mHeight;
 
 
-    private Path mPath;
-    private Paint mPathPaint;
 
-    private float mWaveHight = 20f;
-    private float mWaveHalfWidth = 50f;
-    private String mWaveColor = "#5be4ef";
-    private int mWaveSpeed = 30;
+    /**
+     * Wave speed
+     */
+    private static final int WAVE_SPEED = 70;
 
     private int mMaxProgress = 100;
     private int mCurrentProgress = 30;
@@ -43,18 +41,7 @@ public class WaterMillView extends View {
     private int mRefreshGap = 1;
 
     private static final int INVALIDATE = 0X777;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case INVALIDATE:
-                    invalidate();
-                    sendEmptyMessageDelayed(INVALIDATE, mRefreshGap);
-                    break;
-            }
-        }
-    };
+
 
     /**
      * Default Diameter size
@@ -77,19 +64,24 @@ public class WaterMillView extends View {
     private static final float RATIO_ARC_START_X = 2 / 5.f;
 
     /**
-     * Hourglass separation angle
+     * Mill separation angle
      */
     private static final float Mill_SEPARATION_ANGLE = 45;
 
     /**
+     * Wave Color
+     */
+    private static final String WAVE_COLOR = "#B3E5FC";
+
+    /**
      * Pain Color
      */
-    private static final String PAINT_COLOR = "#7A6021";
+    private static final String PAINT_COLOR = "#000000";
 
     /**
      * Background Color
      */
-    private static final String BACKGROUND_COLOR = "#F4C042";
+    private static final String BACKGROUND_COLOR = "#E0E0E0";
 
     /**
      * space hourglass
@@ -97,14 +89,14 @@ public class WaterMillView extends View {
     private static final float SPACE_MILL = 12;
 
     /**
-     * Hourglass line length
+     * Mill line length
      */
     private static final float MILL_LINE_LENGTH = 15;
 
     /**
      * default offset Y
      */
-    private static final int DEFAULT_OFFSET_Y = 20;
+    private static final int DEFAULT_OFFSET_Y = 70;
 
     /**
      * (mLineStartX, mLineStartY)，mLineLength
@@ -126,14 +118,37 @@ public class WaterMillView extends View {
      */
     private double millStartX, millStartY, millStopX, millStopY;
 
+    /**
+     * Wave height
+     */
+    private static final float WAVE_HEIGHT = 20f;
+
+    /**
+     * Wave half width
+     */
+    private static final float WAVE_HALF_WIDTH = 50f;
+
     private float offsetY = DEFAULT_OFFSET_Y, mOffsetSpin;
 
-    private Paint mPaint, mMillPaint, mBackgroundPaint;
+    private Paint mPaint, mMillPaint, mBackgroundPaint, mPathPaint;
+    private Path mPath;
 
     private TextPaint mTextPaint;
 
     private RectF rectF;
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case INVALIDATE:
+                    invalidate();
+                    sendEmptyMessageDelayed(INVALIDATE, mRefreshGap);
+                    break;
+            }
+        }
+    };
 
     public WaterMillView(Context context) {
         this(context, null);
@@ -175,7 +190,7 @@ public class WaterMillView extends View {
         mBackgroundPaint.setStrokeCap(Paint.Cap.ROUND);
         mBackgroundPaint.setStrokeJoin(Paint.Join.ROUND);
         mBackgroundPaint.setStrokeWidth(1);
-        mBackgroundPaint.setColor(Color.parseColor(BACKGROUND_COLOR));
+        mBackgroundPaint.setColor(Color.parseColor(WAVE_COLOR));
 
         mPath = new Path();
         mPathPaint = new Paint();
@@ -201,7 +216,7 @@ public class WaterMillView extends View {
         if (widthMode == MeasureSpec.UNSPECIFIED || widthMode == MeasureSpec.AT_MOST) {
             widthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_DIAMETER_SIZE, r.getDisplayMetrics());
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
-            mWidth = widthSize +400;
+            mWidth = widthSize + 400;
         }
 
         if (heightMode == MeasureSpec.UNSPECIFIED || heightMode == MeasureSpec.AT_MOST) {
@@ -289,25 +304,21 @@ public class WaterMillView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawLine(mLineStartX, mLineStartY, mLineStartX + mLineLength, mLineStartY, mPaint);
         canvas.drawCircle(calculateCenter(), mLineStartY, sunRadius, mPaint);
         canvas.drawCircle(calculateCenter(), mLineStartY, sunRadius / 2, mPaint);
 
         drawRadiusCenter(canvas);
-        drawRadius(canvas);
+        drawShovel(canvas);
 
         drawWave(canvas);
-//        drawUnderLineView(canvas);
-    }
-
-    private void drawUnderLineView(Canvas canvas) {
-        canvas.save();
-        canvas.drawRect(0, mLineStartY + mPaint.getStrokeWidth() * .5f, getWidth(), getHeight(), mBackgroundPaint);
         canvas.drawText(getResources().getString(R.string.loading), textX, textY, mTextPaint);
-        canvas.restore();
     }
 
-    private void drawRadius(Canvas canvas) {
+    /**
+     *  Drawn Shovel
+     * @param canvas
+     */
+    private void drawShovel(Canvas canvas) {
         for (int a = 0; a <= 360; a += Mill_SEPARATION_ANGLE) {
             millStartX = Math.cos(Math.toRadians(a + mOffsetSpin)) * (sunRadius - SPACE_MILL + MILL_LINE_LENGTH + mMillPaint.getStrokeWidth()) + getWidth() * .5f;
             millStartY = Math.sin(Math.toRadians(a + mOffsetSpin)) * (sunRadius - SPACE_MILL + MILL_LINE_LENGTH + mMillPaint.getStrokeWidth()) + mLineStartY;
@@ -320,6 +331,10 @@ public class WaterMillView extends View {
         }
     }
 
+    /**
+     *  Drawn Radius
+     * @param canvas
+     */
     private void drawRadiusCenter(Canvas canvas) {
         for (int a = 0; a <= 360; a += Mill_SEPARATION_ANGLE) {
             millStartX = calculateCenter();
@@ -333,8 +348,12 @@ public class WaterMillView extends View {
         }
     }
 
+    /**
+     * Drawn Wave
+     * @param canvas
+     */
     private void drawWave(Canvas canvas) {
-        mPathPaint.setColor(Color.parseColor(mWaveColor));
+        mPathPaint.setColor(Color.parseColor(WAVE_COLOR));
         float CurMidY = mHeight * (mMaxProgress - mCurrentProgress) / mMaxProgress;
         if (mCurY > CurMidY) {
             mCurY = mCurY - (mCurY - CurMidY) / 10;
@@ -342,15 +361,15 @@ public class WaterMillView extends View {
         mPath.reset();
         mPath.moveTo(0 - mDistance, mCurY);
 
-        int waveNum = mWidth / ((int) mWaveHalfWidth * 4) + 1;
+        int waveNum = mWidth / ((int) WAVE_HALF_WIDTH * 4) + 1;
         int multiplier = 0;
         for (int i = 0; i < waveNum; i++) {
-            mPath.quadTo(mWaveHalfWidth * (multiplier + 1) - mDistance, mCurY - mWaveHight, mWaveHalfWidth * (multiplier + 2) - mDistance, mCurY);
-            mPath.quadTo(mWaveHalfWidth * (multiplier + 3) - mDistance, mCurY + mWaveHight, mWaveHalfWidth * (multiplier + 4) - mDistance, mCurY);
+            mPath.quadTo(WAVE_HALF_WIDTH * (multiplier + 1) - mDistance, mCurY - WAVE_HEIGHT, WAVE_HALF_WIDTH * (multiplier + 2) - mDistance, mCurY);
+            mPath.quadTo(WAVE_HALF_WIDTH * (multiplier + 3) - mDistance, mCurY + WAVE_HEIGHT, WAVE_HALF_WIDTH * (multiplier + 4) - mDistance, mCurY);
             multiplier += 4;
         }
-        mDistance += mWaveHalfWidth / mWaveSpeed;
-        mDistance = mDistance % (mWaveHalfWidth * 4);
+        mDistance += WAVE_HALF_WIDTH / WAVE_SPEED;
+        mDistance = mDistance % (WAVE_HALF_WIDTH * 4);
 
         mPath.lineTo(mWidth, mHeight);
         mPath.lineTo(0, mHeight);
