@@ -6,7 +6,10 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -19,6 +22,39 @@ import com.thedeveloperworldisyours.watermillprogressview.R;
  */
 
 public class WaterMillView extends View {
+
+    private int mWidth;
+    private int mHeight;
+
+
+    private Path mPath;
+    private Paint mPathPaint;
+
+    private float mWaveHight = 20f;
+    private float mWaveHalfWidth = 50f;
+    private String mWaveColor = "#5be4ef";
+    private int mWaveSpeed = 30;
+
+    private int mMaxProgress = 100;
+    private int mCurrentProgress = 30;
+    private float mCurY;
+
+    private float mDistance = 0;
+    private int mRefreshGap = 1;
+
+    private static final int INVALIDATE = 0X777;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case INVALIDATE:
+                    invalidate();
+                    sendEmptyMessageDelayed(INVALIDATE, mRefreshGap);
+                    break;
+            }
+        }
+    };
 
     /**
      * Default Diameter size
@@ -141,6 +177,14 @@ public class WaterMillView extends View {
         mBackgroundPaint.setStrokeWidth(1);
         mBackgroundPaint.setColor(Color.parseColor(BACKGROUND_COLOR));
 
+        mPath = new Path();
+        mPathPaint = new Paint();
+        mPathPaint.setAntiAlias(true);
+        mPathPaint.setStyle(Paint.Style.FILL);
+        mPathPaint.setStrokeWidth(10);
+
+        mHandler.sendEmptyMessageDelayed(INVALIDATE, 100);
+
         rectF = new RectF();
     }
 
@@ -157,12 +201,16 @@ public class WaterMillView extends View {
         if (widthMode == MeasureSpec.UNSPECIFIED || widthMode == MeasureSpec.AT_MOST) {
             widthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_DIAMETER_SIZE, r.getDisplayMetrics());
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
+            mWidth = widthSize +400;
         }
 
         if (heightMode == MeasureSpec.UNSPECIFIED || heightMode == MeasureSpec.AT_MOST) {
             heightSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_DIAMETER_SIZE, r.getDisplayMetrics());
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
+            mCurY = mHeight = heightSize;
         }
+
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
     }
@@ -248,7 +296,8 @@ public class WaterMillView extends View {
         drawRadiusCenter(canvas);
         drawRadius(canvas);
 
-        drawUnderLineView(canvas);
+        drawWave(canvas);
+//        drawUnderLineView(canvas);
     }
 
     private void drawUnderLineView(Canvas canvas) {
@@ -284,8 +333,28 @@ public class WaterMillView extends View {
         }
     }
 
-    public void drawWave(){
+    private void drawWave(Canvas canvas) {
+        mPathPaint.setColor(Color.parseColor(mWaveColor));
+        float CurMidY = mHeight * (mMaxProgress - mCurrentProgress) / mMaxProgress;
+        if (mCurY > CurMidY) {
+            mCurY = mCurY - (mCurY - CurMidY) / 10;
+        }
+        mPath.reset();
+        mPath.moveTo(0 - mDistance, mCurY);
 
+        int waveNum = mWidth / ((int) mWaveHalfWidth * 4) + 1;
+        int multiplier = 0;
+        for (int i = 0; i < waveNum; i++) {
+            mPath.quadTo(mWaveHalfWidth * (multiplier + 1) - mDistance, mCurY - mWaveHight, mWaveHalfWidth * (multiplier + 2) - mDistance, mCurY);
+            mPath.quadTo(mWaveHalfWidth * (multiplier + 3) - mDistance, mCurY + mWaveHight, mWaveHalfWidth * (multiplier + 4) - mDistance, mCurY);
+            multiplier += 4;
+        }
+        mDistance += mWaveHalfWidth / mWaveSpeed;
+        mDistance = mDistance % (mWaveHalfWidth * 4);
+
+        mPath.lineTo(mWidth, mHeight);
+        mPath.lineTo(0, mHeight);
+        mPath.close();
+        canvas.drawPath(mPath, mPathPaint);
     }
-
 }
