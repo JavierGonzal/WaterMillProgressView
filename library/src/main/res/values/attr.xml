@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaterMillView">
+        <attr name="wave_color" format="color" />
+        <attr name="background_color" format="color" />
+        <attr name="mill_color" format="color" />
+        <attr name="text_color" format="color" />
+        <attr name="loading_text" format="string" />
+    </declare-styleable>
+    <declare-styleable name="Themes">
+        <attr name="waterMillViewStyle" format="reference"/>
+    </declare-styleable>
+</resources>

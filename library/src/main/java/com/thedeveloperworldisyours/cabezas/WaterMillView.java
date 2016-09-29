@@ -1,8 +1,9 @@
-package com.thedeveloperworldisyours.watermillprogressview.view;
+package com.thedeveloperworldisyours.cabezas;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,8 +16,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.thedeveloperworldisyours.watermillprogressview.R;
-
 /**
  * Created by javierg on 28/09/2016.
  */
@@ -25,8 +24,6 @@ public class WaterMillView extends View {
 
     private int mWidth;
     private int mHeight;
-
-
 
     /**
      * Wave speed
@@ -71,17 +68,42 @@ public class WaterMillView extends View {
     /**
      * Wave Color
      */
-    private static final String WAVE_COLOR = "#B3E5FC";
+    private int mWaveColor;
 
     /**
-     * Pain Color
+     * Default wave Color
      */
-    private static final String PAINT_COLOR = "#000000";
+    private int DEFAULT_WAVE_COLOR = Color.CYAN;
+
+    /**
+     * Mill Color
+     */
+    private int mMillColor;
+
+    /**
+     * Default mill Color
+     */
+    private int DEFAULT_MILL_COLOR = Color.DKGRAY;
 
     /**
      * Background Color
      */
-    private static final String BACKGROUND_COLOR = "#E0E0E0";
+    private int mBackgroundColor;
+
+    /**
+     * Default background Color
+     */
+    private int DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+
+    /**
+     * Text Color
+     */
+    private int mTextColor;
+
+    /**
+     * Default text Color
+     */
+    private int DEFAULT_TEXT_COLOR = Color.BLACK;
 
     /**
      * space hourglass
@@ -128,9 +150,11 @@ public class WaterMillView extends View {
      */
     private static final float WAVE_HALF_WIDTH = 50f;
 
+    private String mLoadingString;
+
     private float offsetY = DEFAULT_OFFSET_Y, mOffsetSpin;
 
-    private Paint mPaint, mMillPaint, mBackgroundPaint, mPathPaint;
+    private Paint mPaint, mMillPaint, mPathPaint;
     private Path mPath;
 
     private TextPaint mTextPaint;
@@ -161,7 +185,16 @@ public class WaterMillView extends View {
     public WaterMillView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
-        setBackgroundColor(Color.parseColor(BACKGROUND_COLOR));
+        final TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.WaterMillView, R.attr.waterMillViewStyle, 0);
+        mWaveColor = attributes.getColor(R.styleable.WaterMillView_wave_color, DEFAULT_WAVE_COLOR);
+        mTextColor = attributes.getColor(R.styleable.WaterMillView_text_color, DEFAULT_TEXT_COLOR);
+        mMillColor = attributes.getColor(R.styleable.WaterMillView_mill_color, DEFAULT_MILL_COLOR);
+        mBackgroundColor = attributes.getColor(R.styleable.WaterMillView_background_color, DEFAULT_BACKGROUND_COLOR);
+        mLoadingString = attributes.getString(R.styleable.WaterMillView_loading_text);
+        if (mLoadingString == null){
+            mLoadingString = getResources().getString(R.string.loading);
+        }
+        setBackgroundColor(mBackgroundColor);
         initRes();
     }
 
@@ -171,26 +204,19 @@ public class WaterMillView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeWidth(5);
-        mPaint.setColor(Color.parseColor(PAINT_COLOR));
+        mPaint.setColor(mMillColor);
 
         mMillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mMillPaint.setStyle(Paint.Style.STROKE);
         mMillPaint.setStrokeWidth(10);
-        mMillPaint.setColor(Color.parseColor(PAINT_COLOR));
+        mMillPaint.setColor(mMillColor);
 
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mTextPaint.setStrokeWidth(1);
-        mTextPaint.setTextSize(20);
-        mTextPaint.setColor(Color.parseColor(PAINT_COLOR));
+        mTextPaint.setTextSize(35);
+        mTextPaint.setColor(mTextColor);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
-
-        mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setStrokeCap(Paint.Cap.ROUND);
-        mBackgroundPaint.setStrokeJoin(Paint.Join.ROUND);
-        mBackgroundPaint.setStrokeWidth(1);
-        mBackgroundPaint.setColor(Color.parseColor(WAVE_COLOR));
 
         mPath = new Path();
         mPathPaint = new Paint();
@@ -311,11 +337,12 @@ public class WaterMillView extends View {
         drawShovel(canvas);
 
         drawWave(canvas);
-        canvas.drawText(getResources().getString(R.string.loading), textX, textY, mTextPaint);
+        canvas.drawText(mLoadingString, textX, textY, mTextPaint);
     }
 
     /**
-     *  Drawn Shovel
+     * Drawn Shovel
+     *
      * @param canvas
      */
     private void drawShovel(Canvas canvas) {
@@ -332,7 +359,8 @@ public class WaterMillView extends View {
     }
 
     /**
-     *  Drawn Radius
+     * Drawn Radius
+     *
      * @param canvas
      */
     private void drawRadiusCenter(Canvas canvas) {
@@ -350,10 +378,11 @@ public class WaterMillView extends View {
 
     /**
      * Drawn Wave
+     *
      * @param canvas
      */
     private void drawWave(Canvas canvas) {
-        mPathPaint.setColor(Color.parseColor(WAVE_COLOR));
+        mPathPaint.setColor(mWaveColor);
         float CurMidY = mHeight * (mMaxProgress - mCurrentProgress) / mMaxProgress;
         if (mCurY > CurMidY) {
             mCurY = mCurY - (mCurY - CurMidY) / 10;
