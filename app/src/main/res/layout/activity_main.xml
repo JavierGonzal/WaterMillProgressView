@@ -19,5 +19,6 @@
         app:wave_color="@android:color/holo_blue_light"
         app:text_color="@android:color/white"
         app:background_color="@color/colorBackground"
-        app:loading_text="@string/loading"/>
+        app:loading_text="@string/loading"
+        app:water_level="40"/>
 </RelativeLayout>

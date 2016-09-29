@@ -31,7 +31,7 @@ public class WaterMillView extends View {
     private static final int WAVE_SPEED = 70;
 
     private int mMaxProgress = 100;
-    private int mCurrentProgress = 30;
+    private int mCurrentProgress = 35;
     private float mCurY;
 
     private float mDistance = 0;
@@ -53,7 +53,7 @@ public class WaterMillView extends View {
     /**
      * Ratio line start Y
      */
-    private static final float RATIO_LINE_START_Y = 3 / 4.f;
+    private static final float RATIO_LINE_START_Y = 1 / 2.f;
 
     /**
      * Ratio arc start X
@@ -64,6 +64,11 @@ public class WaterMillView extends View {
      * Mill separation angle
      */
     private static final float Mill_SEPARATION_ANGLE = 45;
+
+    /**
+     * Water level
+     */
+    private static final int DEFAULT_WATER_LEVEL = 50;
 
     /**
      * Wave Color
@@ -191,7 +196,8 @@ public class WaterMillView extends View {
         mMillColor = attributes.getColor(R.styleable.WaterMillView_mill_color, DEFAULT_MILL_COLOR);
         mBackgroundColor = attributes.getColor(R.styleable.WaterMillView_background_color, DEFAULT_BACKGROUND_COLOR);
         mLoadingString = attributes.getString(R.styleable.WaterMillView_loading_text);
-        if (mLoadingString == null){
+        mCurrentProgress = attributes.getInteger(R.styleable.WaterMillView_water_level, DEFAULT_WATER_LEVEL);
+        if (mLoadingString == null) {
             mLoadingString = getResources().getString(R.string.loading);
         }
         setBackgroundColor(mBackgroundColor);
@@ -352,9 +358,7 @@ public class WaterMillView extends View {
 
             millStopX = Math.cos(Math.toRadians(a + mOffsetSpin)) * (sunRadius + SPACE_MILL + MILL_LINE_LENGTH + mMillPaint.getStrokeWidth()) + getWidth() * .5f;
             millStopY = Math.sin(Math.toRadians(a + mOffsetSpin)) * (sunRadius + SPACE_MILL + MILL_LINE_LENGTH + mMillPaint.getStrokeWidth()) + mLineStartY;
-            if (millStartY <= mLineStartY && millStopY <= mLineStartY) {
-                canvas.drawLine((float) millStartX, (float) millStartY, (float) millStopX, (float) millStopY, mPaint);
-            }
+            canvas.drawLine((float) millStartX, (float) millStartY, (float) millStopX, (float) millStopY, mPaint);
         }
     }
 
@@ -370,9 +374,7 @@ public class WaterMillView extends View {
 
             millStopX = Math.cos(Math.toRadians(a + mOffsetSpin)) * (sunRadius / 2) + getWidth() * .5f;
             millStopY = Math.sin(Math.toRadians(a + mOffsetSpin)) * (sunRadius / 2) + mLineStartY;
-            if (millStartY <= mLineStartY && millStopY <= mLineStartY) {
-                canvas.drawLine((float) millStartX, (float) millStartY, (float) millStopX, (float) millStopY, mPaint);
-            }
+            canvas.drawLine((float) millStartX, (float) millStartY, (float) millStopX, (float) millStopY, mPaint);
         }
     }
 

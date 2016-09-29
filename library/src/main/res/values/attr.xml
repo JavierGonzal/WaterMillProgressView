@@ -6,6 +6,7 @@
         <attr name="mill_color" format="color" />
         <attr name="text_color" format="color" />
         <attr name="loading_text" format="string" />
+        <attr name="water_level" format="integer" />
     </declare-styleable>
     <declare-styleable name="Themes">
         <attr name="waterMillViewStyle" format="reference"/>
