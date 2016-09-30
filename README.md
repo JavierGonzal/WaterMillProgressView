@@ -1,5 +1,7 @@
 # WaterMillProgressView
 Water Mill Progress View
+<img src="http://thedeveloperworldisyours.com/wp-content/uploads/blueWaterMill.gif"  alt="" />
+
 
 # Requirements
 
