@@ -6,8 +6,8 @@ Water Mill Progress View
 
 # How to use
 
-    - Android Studio
-<com.thedeveloperworldisyours.cabezas.WaterMillView
+    
+    <com.thedeveloperworldisyours.cabezas.WaterMillView
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@ Water Mill Progress View
         app:background_color="#B3E5FC"
         app:loading_text="@string/loading"
         app:water_level="40"/>
-    - Gradle
+    
 
 
 # Installation
