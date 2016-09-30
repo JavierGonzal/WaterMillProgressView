@@ -1,12 +1,22 @@
 # WaterMillProgressView
 Water Mill Progress View
+
 <img src="http://thedeveloperworldisyours.com/wp-content/uploads/videoBlue.gif"  alt="" />
 
 
-# Requirements
+# How to use
 
     - Android Studio
-
+<com.thedeveloperworldisyours.cabezas.WaterMillView
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:mill_color="#039BE5"
+        app:wave_color="#01579B"
+        app:text_color="#E1F5FE"
+        app:background_color="#B3E5FC"
+        app:loading_text="@string/loading"
+        app:water_level="40"/>
     - Gradle
 
 
