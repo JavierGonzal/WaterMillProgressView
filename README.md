@@ -26,15 +26,30 @@ or you can just use(default mill_color=Color.BLACK, wave_color="#ff33b5e5", text
         />
 ````
 
-# Dependencies
+or you can use how a Dialog
 
-    - Install Android Studio:
+    
+@Override
+  protected void onCreate(Bundle savedInstanceState) {
+     super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button = (Button) findViewById(R.id.activity_main_my_button);
+        if (button != null) {
+           button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                 openDialog();
+              }
+            });
+        }
+    }
 
-    https://developer.android.com/sdk/installing/index.html
+    public void openDialog() {
+       WaterMillDialog waterMillDialog = new WaterMillDialog();
+       waterMillDialog.show(getSupportFragmentManager(), "");
+    }
 
-    - Install gradle:
-
-    http://gradle.org/docs/current/userguide/installation.html
+    
 
 # Usage
     Compile with Android Studio and gradle
