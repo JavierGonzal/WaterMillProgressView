@@ -29,25 +29,28 @@ or you can just use(default mill_color=Color.BLACK, wave_color="#ff33b5e5", text
 or you can use how a Dialog
 
 ```  
-@Override
-  protected void onCreate(Bundle savedInstanceState) {
-     super.onCreate(savedInstanceState);
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button = (Button) findViewById(R.id.activity_main_my_button);
         if (button != null) {
-           button.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                 openDialog();
-              }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openDialog();
+                }
             });
         }
     }
 
     public void openDialog() {
-       WaterMillDialog waterMillDialog = new WaterMillDialog();
-       waterMillDialog.show(getSupportFragmentManager(), "");
+        WaterMillDialog waterMillDialog = new WaterMillDialog();
+        waterMillDialog.show(getSupportFragmentManager(), "");
     }
+}
 ```
     
 
