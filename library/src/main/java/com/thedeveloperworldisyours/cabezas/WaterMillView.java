@@ -78,7 +78,7 @@ public class WaterMillView extends View {
     /**
      * Default wave Color
      */
-    private int DEFAULT_WAVE_COLOR = Color.CYAN;
+    private static final String DEFAULT_WAVE_COLOR = "#ff33b5e5";
 
     /**
      * Mill Color
@@ -88,7 +88,7 @@ public class WaterMillView extends View {
     /**
      * Default mill Color
      */
-    private int DEFAULT_MILL_COLOR = Color.DKGRAY;
+    private static  final int DEFAULT_MILL_COLOR = Color.BLACK;
 
     /**
      * Background Color
@@ -98,7 +98,7 @@ public class WaterMillView extends View {
     /**
      * Default background Color
      */
-    private int DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+    private static final String DEFAULT_BACKGROUND_COLOR = "#E3F2FD";
 
     /**
      * Text Color
@@ -108,7 +108,7 @@ public class WaterMillView extends View {
     /**
      * Default text Color
      */
-    private int DEFAULT_TEXT_COLOR = Color.BLACK;
+    private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
     /**
      * space hourglass
@@ -191,10 +191,10 @@ public class WaterMillView extends View {
         super(context, attrs, defStyle);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
         final TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.WaterMillView, R.attr.waterMillViewStyle, 0);
-        mWaveColor = attributes.getColor(R.styleable.WaterMillView_wave_color, DEFAULT_WAVE_COLOR);
+        mWaveColor = attributes.getColor(R.styleable.WaterMillView_wave_color, Color.parseColor(DEFAULT_WAVE_COLOR));
         mTextColor = attributes.getColor(R.styleable.WaterMillView_text_color, DEFAULT_TEXT_COLOR);
         mMillColor = attributes.getColor(R.styleable.WaterMillView_mill_color, DEFAULT_MILL_COLOR);
-        mBackgroundColor = attributes.getColor(R.styleable.WaterMillView_background_color, DEFAULT_BACKGROUND_COLOR);
+        mBackgroundColor = attributes.getColor(R.styleable.WaterMillView_background_color, Color.parseColor(DEFAULT_BACKGROUND_COLOR));
         mLoadingString = attributes.getString(R.styleable.WaterMillView_loading_text);
         mCurrentProgress = attributes.getInteger(R.styleable.WaterMillView_water_level, DEFAULT_WATER_LEVEL);
         if (mLoadingString == null) {

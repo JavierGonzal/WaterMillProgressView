@@ -11,14 +11,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.thedeveloperworldisyours.watermillprogressview.MainActivity">
 
+    <!--<Button-->
+        <!--android:id="@+id/activity_main_my_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/activity_main_title_button"/>-->
+
     <com.thedeveloperworldisyours.cabezas.WaterMillView
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:mill_color="@color/colorPrimary"
-        app:wave_color="@android:color/holo_blue_light"
-        app:text_color="@android:color/white"
-        app:background_color="@color/colorBackground"
+        app:mill_color="#039BE5"
+        app:wave_color="#01579B"
+        app:text_color="#E1F5FE"
+        app:background_color="#B3E5FC"
         app:loading_text="@string/loading"
         app:water_level="40"/>
 </RelativeLayout>
