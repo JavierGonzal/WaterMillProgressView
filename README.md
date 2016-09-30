@@ -17,9 +17,16 @@ Water Mill Progress View
         app:loading_text="@string/loading"
         app:water_level="40"/>
 ````
+or you can just use(default mill_color=Color.BLACK, wave_color="#ff33b5e5", text_color=Color.WHITE, background_color="#E3F2FD", loading_text="loading...", water_level="50")
+````xml
+    <com.thedeveloperworldisyours.cabezas.WaterMillView
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+````
 
-
-# Installation
+# Dependencies
 
     - Install Android Studio:
 
