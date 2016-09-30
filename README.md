@@ -28,7 +28,7 @@ or you can just use(default mill_color=Color.BLACK, wave_color="#ff33b5e5", text
 
 or you can use how a Dialog
 
-    
+```  
 @Override
   protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ or you can use how a Dialog
        WaterMillDialog waterMillDialog = new WaterMillDialog();
        waterMillDialog.show(getSupportFragmentManager(), "");
     }
-
+```
     
 
 # Usage
