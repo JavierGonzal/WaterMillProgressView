@@ -5,8 +5,7 @@ Water Mill Progress View
 
 
 # How to use
-
-    
+````xml
     <com.thedeveloperworldisyours.cabezas.WaterMillView
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
@@ -17,7 +16,7 @@ Water Mill Progress View
         app:background_color="#B3E5FC"
         app:loading_text="@string/loading"
         app:water_level="40"/>
-    
+````
 
 
 # Installation
