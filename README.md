@@ -36,7 +36,7 @@ or you can use how a Dialog, in this case you can changes the string, in res/val
 
 the colors are (default mill_color=Color.BLACK, wave_color="#ff33b5e5", text_color=Color.WHITE, background_color="#E3F2FD", water_level="50")
 
-```  
+```java  
 public class MainActivity extends AppCompatActivity {
 
     @Override
