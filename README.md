@@ -4,6 +4,21 @@ Water Mill Progress View
 <img src="http://thedeveloperworldisyours.com/wp-content/uploads/videoBlue.gif"  width="300px" />
 <img src="http://thedeveloperworldisyours.com/wp-content/uploads/dialogWaterMill.gif"  width="300px" />
 
+# Download
+
+Download [the latest JAR][2] or grab via Maven:
+```xml
+<dependency>
+  <groupId>com.thedeveloperworldisyours.cabezas</groupId>
+  <artifactId>water-mill-progress-view</artifactId>
+  <version>0.0.1</version>
+  <type>pom</type>
+</dependency>
+```
+or Gradle:
+```groovy
+compile 'com.thedeveloperworldisyours.cabezas:water-mill-progress-view:0.0.1'
+```
 
 # How to use
 ````xml
