@@ -1,7 +1,7 @@
 # WaterMillProgressView
 Water Mill Progress View
 
-<img src="http://thedeveloperworldisyours.com/wp-content/uploads/videoBlue.gif"  alt="" />
+<img src="http://thedeveloperworldisyours.com/wp-content/uploads/videoBlue.gif"  width="300px" />
 
 
 # How to use
