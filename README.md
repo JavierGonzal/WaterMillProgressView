@@ -1,3 +1,4 @@
+[![Bintray](https://img.shields.io/bintray/v/asciidoctor/maven/asciidoctorj.svg?maxAge=2592000)](https://bintray.com/cabezasgonzalezjavier/WaterMillProgressView/water-mill-progress-view)
 # WaterMillProgressView
 Water Mill Progress View
 
