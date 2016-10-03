@@ -6,7 +6,7 @@ Water Mill Progress View
 
 # Download
 
-Download [the latest JAR][2] or grab via Maven:
+Download via Maven:
 ```xml
 <dependency>
   <groupId>com.thedeveloperworldisyours.cabezas</groupId>
